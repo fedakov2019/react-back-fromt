@@ -1,0 +1,22 @@
+.app-wrapper {
+  margin: 0 auto;
+  display: grid;
+  width: 1200px;
+  grid-template-areas: "a " "b" "c" "d";
+  justify-content: center;
+  align-content: center;
+  grid-template-rows: 40px 60px auto 60px ;
+  grid-template-columns: 100% ;
+  /* grid-gap: 10px; */
+}
+
+.app-wrapper-content {
+  grid-area: d;
+  background-color: rgb(235, 237, 239);
+  justify-content: center;
+ 
+  
+  align-content: center;
+  text-align: center;
+}
+@import "~materialize-css/dist/css/materialize.min.css";
