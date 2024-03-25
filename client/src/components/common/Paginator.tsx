@@ -11,7 +11,7 @@ type PropsType={
 }
 const Paginator:React.FC<PropsType>=({totalItemsCount,pageSize,curerentPage,onPageChange}
     )=>{
-        debugger;
+        
     const pageCount=Math.ceil(totalItemsCount/pageSize);
 const pages=[];
 

@@ -10,7 +10,7 @@ import { UserType,ProfileTypeUser } from '../types/types';
 
 import { updateObjectInArray } from '../utils/objectHelper';
 import {  BaseThunkType,PropertiesType } from './redux-store';
-
+import { profile } from 'console';
 const DELETEUSER='DELETEUSER';
 
 const SET_USERS='SET_USERS';
@@ -44,9 +44,7 @@ case DELETEUSER:
    
    
   return {...state,
-    users: (action.act=== "edit")? 
-    updateObjectInArray(state.users,action.userId,'id',{isDelete:true},action.act) 
-    :
+    users: (action.act=== "edit")? updateObjectInArray(state.users,action.userId,'id',{isDelete:true},action.act) :
     
     updateObjectInArray(state.users,action.userId,'id',{isDelete:false},action.act)
      
@@ -59,7 +57,8 @@ case DELETEUSER:
     
 case SET_USERS:
     {
-        return {...state, users: action.users}
+        return {...state,// ...state.users,
+        users: action.users}
     }
     case SET_CURRENT_PAGE:
     {
@@ -143,11 +142,11 @@ export const Deletuser=(Id:number,act:string):ThunkType =>
         const apiMethod=userAPI.getDeletUser.bind(Id);
         const actionCreator = actions.deletSucces;
         
-        _follofUnfollowFlow(dispatch,Id,act,apiMethod,actionCreator);
+      await  _follofUnfollowFlow(dispatch,Id,act,apiMethod,actionCreator);
    
     }
     const alertsSubject = new Subject<IAlert>();
-    const closedAlertsSubject = new Subject<number>();
+    const closedAlertsSubject = new Subject<string>();
     
     const success = (message: string, timeout = 0): void => {
       alert('success', message, timeout);
@@ -165,7 +164,7 @@ export const Deletuser=(Id:number,act:string):ThunkType =>
       alert('info', message, timeout);
     };
     
-  export  const close = (id: number): void => {
+  export  const close = (id: string): void => {
       closedAlertsSubject.next(id);
     };
     
@@ -181,7 +180,7 @@ export const Deletuser=(Id:number,act:string):ThunkType =>
         .asObservable();
     };
     
-  export  const onClosed = (): Observable<number> => {
+  export  const onClosed = (): Observable<string> => {
       return closedAlertsSubject
         .asObservable();
     };

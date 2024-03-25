@@ -2,10 +2,14 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import {required,maxLengthCreator} from '../../../utils/validators/validators'
 import Post from './Post/Post';
-import { Field,reduxForm } from 'redux-form';
-import { Textarea } from '../../common/FormControls/FormsControls';
-
-const MyPosts = React.memo((props) => {
+import { InjectedFormProps,reduxForm } from 'redux-form';
+import { TGetStringKey, Textarea, createField } from '../../common/FormControls/FormsControls';
+import { PostType } from '../../../types/types';
+type TMyPropsR={
+    posts:Array<PostType>
+    addPost:(newPostText:string)=>void
+}
+const MyPostsR:React.FC<TMyPropsR> = (props) => {
     
     let postsElements =
         props.posts.map( p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
@@ -14,7 +18,7 @@ const MyPosts = React.memo((props) => {
 
     
     
-    const onAddPost=(values)=>{
+    const onAddPost=(values:TMyPost)=>{
         props.addPost(values.newPostText); 
     }
 
@@ -29,14 +33,20 @@ const MyPosts = React.memo((props) => {
             </div>
         </div>
     )
-});
+};
+type TMyPost={
+    newPostText:string
+}
+type newPropsType={}
+type TnewPostFormKey= TGetStringKey<TMyPost>
 const maxLenght10 = maxLengthCreator(10);
-const AddNewPostForm=(props)=>{
+const AddNewPostForm:React.FC<InjectedFormProps<TMyPost,newPropsType>&newPropsType>=(props)=>{
     
     return (
         <form onSubmit={props.handleSubmit}>
              <div>
-                    <Field component={Textarea} name="newPostText" validate={[required, maxLenght10]} />
+             {createField<TnewPostFormKey>("Yur post","newPostText",[required,maxLenght10],Textarea)}
+                    
                 </div>
                 <div>
                     <button>Add post</button>
@@ -45,8 +55,8 @@ const AddNewPostForm=(props)=>{
     )
 
 }
-const AddPostFormRedux =reduxForm({
+const AddPostFormRedux =reduxForm<TMyPost,newPropsType>({
     form:'ProfileAddNewPostForm'
 })(AddNewPostForm)
-
+const MyPosts=React.memo(MyPostsR);
 export default MyPosts;

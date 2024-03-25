@@ -11,14 +11,23 @@ import {Route,Routes} from 'react-router-dom'
 
 import LoginPage from './components/Login/login'
 import Setings from './components/Setings/Setings';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
-import ProfileContainer from './components/Profile/ProfileInfo/ProfileContainer';
+import store  from "./redux/redux-store";
+
+import {BrowserRouter} from 'react-router-dom';
+
+import {Provider} from "react-redux";
+
 import HeaderContainer from './components/Header/HeaderContainer';
 import Loader from './components/Users/Loader';
 import 'materialize-css'
+import { AppState } from './redux/redux-store';
+const DialogsContainer=React.lazy(()=>import ('./components/Dialogs/DialogsContainer'));
+const ProfileContainer= React.lazy(()=> import ('./components/Profile/ProfileInfo/ProfileContainer'));
+type MapDispatchProps={
+       initialize:()=>void
+}
 
-
-const App = (props) => {
+const App:React.FC<TueStateToProps&MapDispatchProps> = (props) => {
        
        useEffect(()=>{
               props.initialize();
@@ -37,10 +46,12 @@ const App = (props) => {
                 
          <Routes>
                     <Route path='/dialogs'
-                           element={ <DialogsContainer  /> }/>
+                           element={ <React.Suspense fallback={<div><Loader/></div>} ><DialogsContainer />
+                           </React.Suspense>   }/>
 
                     <Route path='/profile/:userId?'
-                           element={<ProfileContainer /> }/>
+                           element={<React.Suspense fallback={<div><Loader/></div>} ><ProfileContainer />
+                           </React.Suspense> }/>
                     <Route path='/settings'
                            element={<Setings
                                 /> }/>      
@@ -60,8 +71,17 @@ const App = (props) => {
            </> 
         )
 }
-const mapStateToProps=(state)=>({
+
+const mapStateToProps=(state:AppState)=>({
        initialized:state.app.initialized
 })
+type TueStateToProps=ReturnType<typeof mapStateToProps>;
 
-export default compose(connect(mapStateToProps,{initialize})(App));
+let Appcomp= compose<React.ComponentState>(connect(mapStateToProps,{initialize})(App));
+const Proect:React.FC=()=>{return <BrowserRouter>
+<Provider store={store}>
+    <Appcomp />
+    
+    </Provider>
+    </BrowserRouter>}
+    export default Proect;

@@ -5,9 +5,10 @@ import { Logout } from "../../redux/auth-reducer";
 
 
 import Header from "./Header";
+import { AppState } from "../../redux/redux-store";
 
 
-const HeaderContainer = (props) => {
+const HeaderContainer:React.FC<MapStatePropsType&MapDispatchProps> = (props) => {
     
 
 
@@ -15,7 +16,9 @@ const HeaderContainer = (props) => {
 return <Header {...props}/>
 
 }
-const mapStateToProps=(state) =>({
+export type MapDispatchProps={Logout:()=> void}
+export type MapStatePropsType=ReturnType<typeof mapStateToProps>
+const mapStateToProps=(state:AppState) =>({
     isAuth:state.auth.isAuth,
     login:state.auth.login
 })

@@ -1,14 +1,28 @@
 import React, { useState } from "react";
 import './natif.css'
+import { IAlert,TColors } from "../../types/types";
 import {close} from '../../redux/users-reducer'
+type PropsType={
+id:string,
+timeout:number,
+status:TColors,
+message:string,
+key:string,
 
-const Notification = (props) => {
+}
+type MapDispatchPropsType={
+
+
+}
+
+const Notification:React.FC<PropsType> = (props) => {
   const [exit, setExit] = useState(false);
   const [width, setWidth] = useState(0);
-  const [intervalID, setIntervalID] = useState(null);
+  const [intervalID, setIntervalID] = useState<number|null>(null);
+
 
   const handleStartTimer = () => {
-    const id = setInterval(() => {
+    const id  = window.setInterval(() => {
       setWidth(prev => {
         if (prev < 100) {
           return prev + 0.5;
@@ -23,7 +37,8 @@ const Notification = (props) => {
   };
 
   const handlePauseTimer = () => {
-    clearInterval(intervalID);
+    if (intervalID!==null) {
+    clearInterval(intervalID);}
   };
 
   const handleCloseNotification = () => {

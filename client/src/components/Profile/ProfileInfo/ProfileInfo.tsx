@@ -1,22 +1,31 @@
-import React,{useState} from 'react';
+import React,{ChangeEvent, useState} from 'react';
 import Loader from '../../Users/Loader';
 import ProfileStatus from './ProfileStatus';
 import s from './ProfileInfo.module.css';
 import ProfileDataForm from './ProfileDataForm';
 import userPhoto from "../../Users/mult-ava-instagram-58.jpg"
-
-const ProfileInfo = (props) => {
+import { ContactsType, ProfileType } from '../../../types/types';
+type TProfileInfo={
+profile:ProfileType|null,
+status:string,
+isowner:boolean,
+savePhoto:(file:File)=>void,
+saveData:(prof:ProfileType)=>Promise<any>,
+UpdateStatus:(text:string)=> void
+}
+const ProfileInfo:React.FC<TProfileInfo> = (props) => {
     const [editModes,SeteditModes]=useState(false);
     if (!props.profile) {
         return <Loader />
     }
     
-    const OnMainPhoto=(e)=>{
-        
-            props.savePhoto(e.target.files[0]);
+    const OnMainPhoto=(e:ChangeEvent<HTMLInputElement>)=>{
+        if (e.target.files?.length)
+        {
+            props.savePhoto(e.target.files[0]);}
         
     }
-    const onSubmit=(formData)=>{
+    const onSubmit=(formData:ProfileType)=>{
     props.saveData(formData).then(()=>{
         SeteditModes(false);
     })
@@ -40,8 +49,13 @@ const ProfileInfo = (props) => {
         </div>
     )
 }
+type PropsProfileData={
+    goToEditMode:()=>void,
+    profile:ProfileType,
+    isOwner:boolean
 
-const ProfileData = ({goToEditMode,profile,isOwner})=>{
+}
+const ProfileData:React.FC<PropsProfileData> = ({goToEditMode,profile,isOwner})=>{
     return (
         <div>
         {isOwner && <div><button onClick={goToEditMode}>Edit</button></div>}
@@ -52,14 +66,19 @@ const ProfileData = ({goToEditMode,profile,isOwner})=>{
 <div> <b>About me:</b> {profile.aboutMe}</div>
 <div><b>Contact:</b>
 {Object.keys(profile.contacts).map(key=>{
-return <Contact  key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+return <Contact  key={key} contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]}/>
 })}
 
 </div>
 </div>
     )
 }
-const Contact =({contactTitle,contactValue})=>
+type propsContcts={
+    contactTitle:string,
+    contactValue:string
+
+}
+const Contact:React.FC<propsContcts> =({contactTitle,contactValue})=>
 {
     return <div className={s.contakt}><b>{contactTitle}:</b>{contactValue}</div>
 }

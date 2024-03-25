@@ -26,7 +26,7 @@ messages: [
   {id: 4, message: 'Yo'},
   {id: 5, message: 'Yo'}
 ] as Array<MessageType> }
-type InitialStateType= typeof initialState
+export type InitialStateType= typeof initialState
 type ActionType=ReturnType<PropertiesType<typeof action>>
 const dialogReducer = (state=initialState, action:ActionType):InitialStateType=>{
   

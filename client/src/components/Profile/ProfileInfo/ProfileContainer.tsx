@@ -7,22 +7,35 @@ import Profile from "./Profile";
 import {connect}  from "react-redux";
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../Hoc/AuthRedirect';
+import { AppState } from '../../../redux/redux-store';
+import { ProfileType } from '../../../types/types';
+import  RouteComponentProps  from 'react-router-dom';
 
+type MapStProps=ReturnType<typeof mapStateToProps>
 
+type Propsdispatch={
 
-const ProfileContainer = (props) => {
+savePhoto:(file:File)=>void,
+saveData:(prof:ProfileType)=>Promise<any>,
+UpdateStatus:(text:string)=> void
+GetUserProfile:(userid:string)=>void,
+GetStatus:(userid:string)=>void,
+
+}
+
+const ProfileContainer:React.FC<MapStProps&Propsdispatch> = (props) => {
     let params=useParams();
     let userId=params.userId;
     if (!userId) 
     {
-        userId = props.authUserid;
+        userId = String(props.authUserid);
     } 
     useEffect(()=>{
         
-        
+        if (!userId){console.error('ошибка id user')}else{
        
         props.GetUserProfile(userId);
-        props.GetStatus(userId);
+        props.GetStatus(userId);}
     
     },[userId]) ;  
     
@@ -38,7 +51,7 @@ const ProfileContainer = (props) => {
         </div>
     )
 }
-const mapStateToProps =(state) => ({
+const mapStateToProps =(state:AppState) => ({
 profile : state.profilePage.profile,
 status: state.profilePage.status,
 authUserid:state.auth.userId,
@@ -46,4 +59,4 @@ isAuth:state.auth.isAuth
 });
 
 
-export default compose(connect(mapStateToProps,{GetUserProfile, GetStatus,UpdateStatus,savePhoto,saveData}),withAuthRedirect)(ProfileContainer);
+export default compose<React.ComponentState>(connect(mapStateToProps,{GetUserProfile, GetStatus,UpdateStatus,savePhoto,saveData}),withAuthRedirect)(ProfileContainer);

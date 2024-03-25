@@ -16,14 +16,14 @@ const min2=maxLengthCreator(2);
 export type TLoginForm ={
     text:string,password:string,rememberMe:boolean 
 }
-type TLoginFormKey= Extract<keyof TLoginForm,string>  
+export type TLoginFormKey= Extract<keyof TLoginForm,string>  
 
 const Login:React.FC<TmapStateToProps&TmapDispatchProps>=(props)=>{
     const onSubmit =(formData:any)=>{
         props.login(formData.text,formData.password,formData.rememberMe);
 
     }
-    if (props.isAuth) {return <Navigate to='/user/'/>}
+    if (props.isAuth) {return <Navigate to='/users/'/>}
  return <div className='container'>
  <div className='row'>
     <div className='col s6 offset-s3'>

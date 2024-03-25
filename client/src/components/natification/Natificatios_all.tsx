@@ -1,7 +1,15 @@
 import React, { useEffect } from "react";
 import Notification from "./natification";
 import { onAlert, onClosed } from '../../redux/users-reducer';
-const Natific_all = ({...props}) => {
+import { IAlert } from "../../types/types";
+import { MapDispatchPropsType, MapStatePropsType } from "./natificationContainer";
+type PropsType={
+  addNotif:(d:IAlert)=>void,
+remuf:(z:string)=>void,
+alerts:Array<IAlert>
+}
+
+const Natific_all:React.FC<PropsType> = ({...props}) => {
  
  
  
@@ -23,8 +31,8 @@ const Natific_all = ({...props}) => {
  
 
     let postsElements =
-    props.alerts.map((note) => 
-      <Notification  {...note}   key={note.id} />
+    props.alerts.map((note:IAlert) => (
+      <Notification  {...note}   key={note.id} />)
     )
     
     

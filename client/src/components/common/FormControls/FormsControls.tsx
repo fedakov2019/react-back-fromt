@@ -48,6 +48,8 @@ const FormControl:React.FC<TFormControlParama>=({meta:{touched,error},children})
              {text}
              </div>
             )}
+
+           export type TGetStringKey<T>= Extract<keyof T,string>
         
 
 
