@@ -10,11 +10,13 @@ import appReducer from "./app-reducer"
 import natifReduser from './natification-reduser'
 
 import { composeWithDevTools } from 'redux-devtools-extension';
+import peopleReducer from "./people_reducer"
 
 const reducer =combineReducers({
     profilePage:profileReducer,
     dialogsPage:dialogReducer,
     sidebar:sidebarReducer,
+    people:peopleReducer,
     usersPage: usersReducer,
     auth: authReducer,
     form : formReducer,

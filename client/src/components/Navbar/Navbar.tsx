@@ -16,6 +16,8 @@ const Navbar:React.FC = () => {
                 <NavLink to="/users">Админка</NavLink>
             </li>
 <li key='4'>        <NavLink to="/settings" >Settings</NavLink></li>
+<li key='5'>        <NavLink to="/people" >Регист застрахованных</NavLink></li>
+
                 </ul>
             
       </div>

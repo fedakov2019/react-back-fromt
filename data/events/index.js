@@ -2,20 +2,7 @@
 const utils = require('../utils');
 const config = require('../../config');
 const sql=require('mssql');
-const getEvents=async(Enpdat)=> {
-    try {
-        let pool =await sql.connect(config.sql);
-        const sqlQueries =await utils.loadSqlQueries('events');
 
-        const list =await pool.request().input('enp',sql.NVarChar(16),Enpdat.Enp).query(sqlQueries.photes);
-        
-        
-        return list.recordset;
-    }
-    catch (error) {
-        return error.message;
-    }
-}
 const postUserName=async(User)=>{
     try {
         let pool =await sql.connect(config.sql);
@@ -194,6 +181,50 @@ const User_ID=async(id)=>{
                         catch (error) {
                             return error.message;
                         }}
+
+
+                        const PadingPeople=async(PageSi,PageCou,enp,rs)=>{
+                            try {
+                                let pool =await sql.connect(config.sql);
+                                const sqlQueries =await utils.loadSqlQueries('events');
+                        
+                                const Col =await pool.request()
+                                .input('enp',sql.VarChar(16),enp)
+                                    .inpur('przpoiska',sql.Int,rs)
+                                .input('PageSize',sql.Int,PageSi)
+                                .input('PageCount',sql.Int,PageCou)
+                                .execute('[stk].[dbo].[Pading_People]');
+                                
+                                
+                                return Col.recordset;
+                            }
+                            catch (error) {
+                                return error.message;
+                            }}
+                            const PadingPeopleCount=async(PageSi,PageCou,enp,rs)=>{
+                                try {
+                                    let pool =await sql.connect(config.sql);
+                                  
+                            
+                                    const Col =await pool.request()
+                                    .input('enp',sql.VarChar(16),enp)
+                                    .inpur('przpoiska',sql.Int,rs)
+                                    .input('PageSize',sql.Int,PageSi)
+                                    .input('PageCount',sql.Int,PageCou)
+                                    .execute('[STK].[dbo].[Pading_People_count]');
+                                    
+                                    
+                                    return Col.recordset;
+                                }
+                                catch (error) {
+                                    return error.message;
+                                }}
+
+
+
+
+
+
     
-module.exports={getEvents,postUserName,insertUserName,postUsersPass,
-    UpdateToken,ClearToken,UserToken,PadingUser,PadingUserCount,DeleteUser,User_ID,UpdateUserID};
+module.exports={postUserName,insertUserName,postUsersPass,
+    UpdateToken,ClearToken,UserToken,PadingUser,PadingUserCount,DeleteUser,User_ID,UpdateUserID,PadingPeople,PadingPeopleCount};

@@ -29,5 +29,19 @@ export const getIsFetching=(state:AppState)=>{
 export const getFollowingInProgress=(state:AppState)=>{
     return state.usersPage.followingInProgress;
 }
+export const getTotalUserCountP=(state:AppState)=>{
+    return state.people.totalCountP;
+    }
+    export const getCurrentPageP=(state:AppState)=>{
+        return state.people.currentPageP
+    }
+    export const getPageSizeP=(state:AppState)=>{
+        return state.people.pageSizeP;
+    }
+    export const getfilterP=(state:AppState)=>{
+        return state.people.filter;
+    }
 
-
+    export const GetPeopleSel=(state:AppState)=>{
+        return state.people.people;
+    }

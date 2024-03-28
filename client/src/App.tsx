@@ -21,6 +21,7 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Loader from './components/Users/Loader';
 import 'materialize-css'
 import { AppState } from './redux/redux-store';
+import { People } from './components/People/People';
 const DialogsContainer=React.lazy(()=>import ('./components/Dialogs/DialogsContainer'));
 const ProfileContainer= React.lazy(()=> import ('./components/Profile/ProfileInfo/ProfileContainer'));
 type MapDispatchProps={
@@ -54,7 +55,11 @@ const App:React.FC<TueStateToProps&MapDispatchProps> = (props) => {
                            </React.Suspense> }/>
                     <Route path='/settings'
                            element={<Setings
-                                /> }/>      
+                                /> }/>     
+
+                      <Route path='/people'
+                           element={<People
+                                /> }/>              
                      <Route path='/users'
                            element={<UsersContainer
                                 /> }/>      

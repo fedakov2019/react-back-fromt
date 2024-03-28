@@ -27,8 +27,11 @@ export const userAPI ={
    getProfileUser(id:number)
    {
     return instance.get(`auth/user/${id}`).then(response=>response.data)
-   }
-   
-  
+   },
+   getPeople(currentPage=1,pageSize=20,enp:string|null,prz:number)
+{
+    return instance.post('api/enp',{CurrentPage:currentPage,PadingSize:pageSize,ENP:enp,Przpoiska:prz}).then(response=>response.data)
+
+  }
  }
    

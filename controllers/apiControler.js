@@ -1,13 +1,17 @@
 const eventData = require('../data/events');
-const getEvent =async(req,res,next) => {
-    try {
-        const data=req.body;
-        const event =await eventData.getEvents(data);
-        res.send(event);
+
+const GETPadingPeople=async(req,res,next)=>{
+    try{
+        const {CurrentPage,PadingSize,ENP,Przpoiska}=reg.body;
+      
+        const dat=await userService.PadingPeople(PadingSize,CurrentPage,ENP,Przpoiska);
+        
+                return res.json({...dat});
+     
     }
     catch(error) {
-         res.status(400).send(error.message);
-}}
+       next(error)
+    }}
 
 
-module.exports={getEvent}
+module.exports={GETPadingPeople}
