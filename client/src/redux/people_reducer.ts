@@ -31,7 +31,7 @@ const initialState={
     totalCountP:0,
     currentPageP:1,
     isFetchingP:false,
-   filter:{enp:null,przpoisk:0} as Filtr,
+   filter:{enp:'3668150831000',przpoisk:0} as Filtr,
    
     profilePeople: { FAM:'', IM:'',OT:'',W:0, DR:'',MR:'',DS:'',SS:'',DOCORGCODE:'',DOCTP:0,DOCS:'',
         DOCN:'',DOCDT:'',DOCORG:'',DOCEND:'',RDOCTP:0,RDOCS:'',RDOCN:'', RDOCDT:'',RDOCORG:'',
@@ -105,10 +105,12 @@ export const GetPeopleThunk=(currentPage:number,pageSize:number,filtr:Filtr):Thu
 
     dispatch(actions.toggleIsFetching(true));
     const data=await userAPI.getPeople(currentPage,pageSize,filtr.enp,filtr.przpoisk)
+    
     if (data.totalCount!==0){
+        
         dispatch(actions.toggleIsFetching(false));
        
-        const items=data.items
+        const items=data.peoples
        const pr={};
         dispatch(actions.setPeople(items));    
         dispatch(actions.setCurrentPageP(currentPage));

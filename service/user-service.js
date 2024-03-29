@@ -119,17 +119,11 @@ return this.TokenSave(idk,Login,Acces)
         const dat1=await eventData.PadingPeopleCount(Size,Count,enp,res);
    
         const [{totalCount}]=dat1
-        const items =await eventData.PadingPeople(Size,Count,enp,res);
+        const peoples =await eventData.PadingPeople(Size,Count,enp,res);
     
-        const peoples=items.map(u=>{
-            
-        
-            return {...u}
-        }
-            )
         
                  
-                return {peoples:peoples,totalCount}
+                return {peoples,totalCount}
 
 
         

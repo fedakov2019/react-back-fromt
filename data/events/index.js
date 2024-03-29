@@ -186,16 +186,16 @@ const User_ID=async(id)=>{
                         const PadingPeople=async(PageSi,PageCou,enp,rs)=>{
                             try {
                                 let pool =await sql.connect(config.sql);
-                                const sqlQueries =await utils.loadSqlQueries('events');
+                                
                         
                                 const Col =await pool.request()
-                                .input('enp',sql.VarChar(16),enp)
-                                    .inpur('przpoiska',sql.Int,rs)
+                               .input('enp',sql.VarChar(16),enp)
+                                    .input('przpoiska',sql.Int,rs)
                                 .input('PageSize',sql.Int,PageSi)
                                 .input('PageCount',sql.Int,PageCou)
-                                .execute('[stk].[dbo].[Pading_People]');
+                                .execute('[STK].[dbo].[Pading_People]');
                                 
-                                
+                               
                                 return Col.recordset;
                             }
                             catch (error) {
@@ -208,12 +208,12 @@ const User_ID=async(id)=>{
                             
                                     const Col =await pool.request()
                                     .input('enp',sql.VarChar(16),enp)
-                                    .inpur('przpoiska',sql.Int,rs)
+                                    .input('przpoiska',sql.Int,rs)
                                     .input('PageSize',sql.Int,PageSi)
                                     .input('PageCount',sql.Int,PageCou)
                                     .execute('[STK].[dbo].[Pading_People_count]');
                                     
-                                    
+                                  
                                     return Col.recordset;
                                 }
                                 catch (error) {

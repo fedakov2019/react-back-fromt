@@ -30,7 +30,7 @@ export const userAPI ={
    },
    getPeople(currentPage=1,pageSize=20,enp:string|null,prz:number)
 {
-    return instance.post('api/enp',{CurrentPage:currentPage,PadingSize:pageSize,ENP:enp,Przpoiska:prz}).then(response=>response.data)
+    return instance.put('api/enp',{CurrentPage:currentPage,PadingSize:pageSize,ENP:enp,Przpoiska:prz}).then(response=>response.data)
 
   }
  }

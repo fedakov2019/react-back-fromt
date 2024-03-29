@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import styles from './users.module.css';
-import userPhoto from "./mult-ava-instagram-58.jpg";
+import styles from './people.module.css';
+import userPhoto from './ava-mult-vk-72.jpg';
 
 
 import Paginator from '../common/Paginator';
@@ -52,12 +52,13 @@ export const People:React.FC<PropsType>=({})=>{
         <>{u.ID?
     
     <tr key={u.ID} onDoubleClick={()=>{}} > 
-<td> <img src={u.PHOTO != null ? u.PHOTO:userPhoto} className={styles.userPhoto} />
+<td> <img src={u.PHOTO != null ? 'data:image/jpeg;base64,'+u.PHOTO:userPhoto} className={styles.userPhoto} />
          </td>
         <td>{u.ID}</td>
         <td>{u.FAM}</td>
+        <td>{u.IM}</td>
         <td>{u.OT}</td>
-        <td></td>
+        <td>{u.DR}</td>
         <td>{u.ENP}</td>
 
       </tr>:<></>}</>))
