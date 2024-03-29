@@ -21,7 +21,8 @@ const TOGGLE_IS_FETCHING_P='PEOPLE/TOGGLE_IS_FETCHING';
 
 const SET_PEOPLE_PROFILE='PEOPLE/SET_USER_PROFILE';
 const SET_PAGESIZE_PEOPLE='PEOPLE/SET_PAGESIZE';
-type Filtr={
+const SET_PEOPLE_FILTR='people/FILTR';
+export type Filtr={
     enp:string|null,
     przpoisk:number
 }
@@ -52,7 +53,8 @@ switch (action.type)
     return {...state,profilePeople:action.profile_People}
 
 
-    
+ case SET_PEOPLE_FILTR:
+    return{...state, filter:action.peiloading }   
 case SET_PEOPLE:
     {
         return {...state,// ...state.users,
@@ -85,7 +87,7 @@ default:
 export const actions={
     setPeopleProfile:(profile_People:PeopleType) =>({type:SET_PEOPLE_PROFILE,profile_People} as const),
 
-
+setPeopleFiltr:(people_filter:Filtr)=>({type:SET_PEOPLE_FILTR,peiloading:{enp:people_filter.enp,przpoisk:people_filter.przpoisk}} as const),
 setPagesizeP:(pagesize:number)=>({type:SET_PAGESIZE_PEOPLE, pagesize} as const),
 setPeople:(people: Array<PeopleType>) => ({type:SET_PEOPLE, people}as const), 
 
@@ -109,7 +111,7 @@ export const GetPeopleThunk=(currentPage:number,pageSize:number,filtr:Filtr):Thu
     if (data.totalCount!==0){
         
         dispatch(actions.toggleIsFetching(false));
-       
+       dispatch(actions.setPeopleFiltr(filtr));
         const items=data.peoples
        const pr={};
         dispatch(actions.setPeople(items));    

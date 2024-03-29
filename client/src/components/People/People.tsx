@@ -6,12 +6,12 @@ import userPhoto from './ava-mult-vk-72.jpg';
 import Paginator from '../common/Paginator';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetPeopleSel, getCurrentPageP, getPageSizeP, getTotalUserCountP, getfilterP } from '../../redux/users-selectors';
-import { GetPeopleThunk } from '../../redux/people_reducer';
+import { Filtr, GetPeopleThunk } from '../../redux/people_reducer';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../redux/redux-store';
 import { AnyAction } from 'redux';
-import { Formik, Form, Field, useFormik,  } from 'formik';
-import { isSubmitting } from 'redux-form';
+import { useFormik,  } from 'formik';
+
 import {Button, Input,InputLabel,MenuItem,Select, TextField} from '@mui/material/';
 
 
@@ -30,9 +30,12 @@ export const People:React.FC<PropsType>=({})=>{
      {
        dispatch(GetPeopleThunk(pageNum,page,filtr))
      }
+     const setPeopleFiltr=(filtr:Filtr)=>{
+      dispatch(GetPeopleThunk(1,pageSize,filtr))
+     }
 
 
-     const Formiks=()=>{
+     const Formiks:React.FC<Filtr>=(props)=>{
  const formik=useFormik({
   initialValues:{ enp: '',przpoisk:[] },
 
@@ -40,13 +43,13 @@ export const People:React.FC<PropsType>=({})=>{
 
  onSubmit:(values, { setSubmitting }) => {
  
-   setTimeout(() => {
+   
  
-     alert(JSON.stringify(values, null, 2));
+     props.onPeopleFiltr(values);
  
      setSubmitting(false);
  
-   }, 400);
+ 
  
  }})
 
@@ -121,7 +124,7 @@ return (<div>
   
     return <div>
       <div className="row">
-<Formiks/>
+<Formiks setPeopleFiltr={setPeopleFiltr}/>
 
 
 </div>
