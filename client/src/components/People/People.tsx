@@ -13,12 +13,18 @@ import { AnyAction } from 'redux';
 import { useFormik,  } from 'formik';
 
 import {Button, Input,InputLabel,MenuItem,Select, TextField} from '@mui/material/';
+import { PeopleType } from '../../types/types';
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params';
+import { getURLParams } from '../../utils/htmlsearch';
+import { useSearchPeopleQuery } from '../../service/Peopleservice';
 
 
 type PropsType={}
 
 export const People:React.FC<PropsType>=({})=>{
-    
+  let [searchValueENP, SetSearchValueENP]=useQueryParam("enp",StringParam);
+  let [searchValuepage,SetSearchValuepage]=useQueryParam("page",NumberParam);
+  let [searchValuepagePrz,SetSearchValuePrz]=useQueryParam("przpoisk",NumberParam);
     const totalUserCount=useSelector(getTotalUserCountP);
     const currentPage=useSelector(getCurrentPageP);
     const pageSize=useSelector(getPageSizeP); 
@@ -33,25 +39,47 @@ export const People:React.FC<PropsType>=({})=>{
      const setPeopleFiltr=(filtr:Filtr)=>{
       dispatch(GetPeopleThunk(1,pageSize,filtr))
      }
+     useEffect(()=>{
+      const value=getURLParams();
+      let actualpage=currentPage;
+      if (!!value?.page) actualpage=Number(value.page);
+      let actualfilter=filtr;
+      if (!!value?.enp) actualfilter={...actualfilter,enp:value.enp}
+      if (!!value?.przpoisk) actualfilter={...actualfilter,przpoisk:Number(value.przpoisk)}
+      
+      dispatch(GetPeopleThunk(actualpage,pageSize,actualfilter))},[])
+      
+     useEffect(()=>{
+    
+      if (filtr.enp?.trim()!=="" && peoples.length>1) SetSearchValueENP(filtr.enp);
+      if (!!filtr.przpoisk) SetSearchValuePrz(filtr.przpoisk);
+      if (!!currentPage) SetSearchValuepage(currentPage); 
+    
+  
+    
+    
+     },[currentPage,filtr])
 
-
-     const Formiks:React.FC<Filtr>=(props)=>{
+     const Formiks:React.FC=()=>{
+      const filter=useSelector(getfilterP);
  const formik=useFormik({
-  initialValues:{ enp: '',przpoisk:[] },
+  enableReinitialize:true,
+  initialValues:{ enp: filtr.enp,przpoisk:filter.przpoisk },
 
 
 
  onSubmit:(values, { setSubmitting }) => {
  
-   
+   const df:Filtr={enp:values.enp,przpoisk:Number(values.przpoisk)} 
  
-     props.onPeopleFiltr(values);
+     setPeopleFiltr(df);
  
      setSubmitting(false);
  
  
  
  }})
+
 
 return (<div>
 
@@ -119,12 +147,17 @@ return (<div>
 
 
      }
-     useEffect(()=>{dispatch(GetPeopleThunk(currentPage,pageSize,filtr))},[])
-  const peoples=useSelector(GetPeopleSel);
+
+     
+    const {isLoading,isError,data}=useSearchPeopleQuery({pageSize:1,curentPage:20,filtr:{enp:'',przpoisk:0}});
+    console.log(isLoading);
+    console.log(isError);
+    console.log(data);
+  const peoples=useSelector(GetPeopleSel) as Array<PeopleType>;
   
     return <div>
       <div className="row">
-<Formiks setPeopleFiltr={setPeopleFiltr}/>
+<Formiks />
 
 
 </div>
@@ -149,7 +182,7 @@ return (<div>
             </tr>
             </thead>
             <tbody>
-    { peoples.map(u => (
+    { peoples.length>1?  peoples?.map(u => (
         <>{u.ID?
     
     <tr key={u.ID} onDoubleClick={()=>{}} > 
@@ -162,7 +195,7 @@ return (<div>
         <td>{u.DR}</td>
         <td>{u.ENP}</td>
 
-      </tr>:<></>}</>))
+      </tr>:<></>}</>)): <></>
 }
 </tbody>
     </table>

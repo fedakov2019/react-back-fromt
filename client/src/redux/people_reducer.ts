@@ -32,7 +32,7 @@ const initialState={
     totalCountP:0,
     currentPageP:1,
     isFetchingP:false,
-   filter:{enp:'3668150831000',przpoisk:0} as Filtr,
+   filter:{enp:'' ,przpoisk:0} as Filtr,
    
     profilePeople: { FAM:'', IM:'',OT:'',W:0, DR:'',MR:'',DS:'',SS:'',DOCORGCODE:'',DOCTP:0,DOCS:'',
         DOCN:'',DOCDT:'',DOCORG:'',DOCEND:'',RDOCTP:0,RDOCS:'',RDOCN:'', RDOCDT:'',RDOCORG:'',
@@ -70,7 +70,7 @@ case SET_PEOPLE:
         }
     case SET_TOTAL_PEOPLE_COUNT:
     {
-        return {...state, totalCountP: action.count}
+        return {...state, totalCountP: action.totalUserCount}
     }
 
  
@@ -93,7 +93,7 @@ setPeople:(people: Array<PeopleType>) => ({type:SET_PEOPLE, people}as const),
 
 setCurrentPageP :(currentPage:number) => ({type:SET_CURRENT_PAGE_P, currentPage} as const),
 
-setTotalUsersCountP :(totalUserCount:number) => ({type:SET_TOTAL_PEOPLE_COUNT, count:totalUserCount} as const),
+setTotalUsersCountP :(totalUserCount:number) => ({type:SET_TOTAL_PEOPLE_COUNT, totalUserCount} as const),
 
 
 

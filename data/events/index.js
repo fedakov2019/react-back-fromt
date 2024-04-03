@@ -195,7 +195,7 @@ const User_ID=async(id)=>{
                                 .input('PageCount',sql.Int,PageCou)
                                 .execute('[STK].[dbo].[Pading_People]');
                                 
-                               
+                             
                                 return Col.recordset;
                             }
                             catch (error) {

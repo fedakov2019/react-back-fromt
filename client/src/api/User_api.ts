@@ -30,7 +30,8 @@ export const userAPI ={
    },
    getPeople(currentPage=1,pageSize=20,enp:string|null,prz:number)
 {
-    return instance.put('api/enp',{CurrentPage:currentPage,PadingSize:pageSize,ENP:enp,Przpoiska:prz}).then(response=>response.data)
+  const url=!!enp? `api/enp/page=${currentPage}/count=${pageSize}/enp=${enp}/przpoiska=${prz}`:`api/enp/page=${currentPage}/count=${pageSize}/przpoiska=${prz}`
+    return instance.get(url).then(response=>response.data)
 
   }
  }

@@ -11,17 +11,21 @@ import {Route,Routes} from 'react-router-dom'
 
 import LoginPage from './components/Login/login'
 import Setings from './components/Setings/Setings';
-import store  from "./redux/redux-store";
+import {store}  from "./redux/redux-store";
 
 import {BrowserRouter} from 'react-router-dom';
 
 import {Provider} from "react-redux";
 
+
 import HeaderContainer from './components/Header/HeaderContainer';
 import Loader from './components/Users/Loader';
 import 'materialize-css'
 import { AppState } from './redux/redux-store';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+import { QueryParamProvider } from 'use-query-params';
 import { People } from './components/People/People';
+
 const DialogsContainer=React.lazy(()=>import ('./components/Dialogs/DialogsContainer'));
 const ProfileContainer= React.lazy(()=> import ('./components/Profile/ProfileInfo/ProfileContainer'));
 type MapDispatchProps={
@@ -55,14 +59,14 @@ const App:React.FC<TueStateToProps&MapDispatchProps> = (props) => {
                            </React.Suspense> }/>
                     <Route path='/settings'
                            element={<Setings
-                                /> }/>     
-
-                      <Route path='/people'
+                                /> }/> 
+                                   <Route path='/people'
                            element={<People
-                                /> }/>              
+                                /> }/>      
                      <Route path='/users'
                            element={<UsersContainer
-                                /> }/>      
+                                /> }/>    
+                                  
                               
                      <Route path='/login'
                            element={<LoginPage
@@ -84,9 +88,15 @@ type TueStateToProps=ReturnType<typeof mapStateToProps>;
 
 let Appcomp= compose<React.ComponentState>(connect(mapStateToProps,{initialize})(App));
 const Proect:React.FC=()=>{return <BrowserRouter>
+ 
+ <QueryParamProvider adapter={ReactRouter6Adapter}>
+ 
 <Provider store={store}>
+
     <Appcomp />
-    
+   
     </Provider>
+    </QueryParamProvider>
+   
     </BrowserRouter>}
     export default Proect;
